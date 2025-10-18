@@ -1,0 +1,18 @@
+# .NET build
+bin/
+obj/
+
+# Angular build
+/FinantePLFulLStack/node_modules/
+/FinantePLFulLStack/dist/
+
+# System / IDE files
+.vs/
+.vscode/
+*.user
+*.suo
+*.log
+
+# OS files
+Thumbs.db
+*.DS_Store
