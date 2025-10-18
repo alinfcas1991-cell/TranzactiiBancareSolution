@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Extensions.FileProviders;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +13,7 @@ builder.Services.AddCors(options =>
                 "https://localhost:4200",
                 "http://192.168.1.6:4200",
                 "https://192.168.1.6:4200",
-                "https://tranzactiibancaresolution.onrender.com" // ✅ pentru producție (Render)
+                "https://tranzactiibancaresolution.onrender.com" // pentru producție (Render)
             )
             .AllowAnyHeader()
             .AllowAnyMethod();
@@ -36,22 +37,26 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// ✅ HTTPS redirection (opțional pe Render)
+// ✅ (opțional, îl putem lăsa activ)
 app.UseHttpsRedirection();
 
-// ✅ Servire fișiere statice (inclusiv Angular în wwwroot/app)
-app.UseStaticFiles();
-
-// ✅ Activare CORS (pentru Angular)
+// ✅ Activăm CORS (pentru Angular)
 app.UseCors("AllowAngular");
 
-// ✅ Authorization
 app.UseAuthorization();
 
-// ✅ Mapare API controllers
 app.MapControllers();
 
-// ✅ Fallback pentru Angular (servește index.html din /app)
-app.MapFallbackToFile("/app/index.html");
+// ✅ Servire fișiere statice din wwwroot/app
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "app")
+    ),
+    RequestPath = ""
+});
+
+// ✅ Fallback către Angular index.html
+app.MapFallbackToFile("app/index.html");
 
 app.Run();
