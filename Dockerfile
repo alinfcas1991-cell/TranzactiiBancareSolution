@@ -1,10 +1,18 @@
 # ============================
-# 🏗️ STAGE 1: Build backend + frontend
+# 🏗️ STAGE 1: Build backend + frontend (.NET + Node)
 # ============================
-FROM mcr.microsoft.com/dotnet/sdk:8.0-node AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copiem totul
+# 🔹 Instalăm Node.js 20 (LTS)
+RUN apt-get update && \
+    apt-get install -y curl && \
+    curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs && \
+    npm install -g @angular/cli && \
+    node -v && npm -v
+
+# Copiem tot codul
 COPY . .
 
 # 1️⃣ Restore backend
