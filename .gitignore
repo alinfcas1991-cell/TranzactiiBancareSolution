@@ -1,18 +1,55 @@
-# .NET build
+# ==========================================
+# 🧱 .NET build folders
+# ==========================================
 bin/
 obj/
 
-# Angular build
-/FinantePLFulLStack/node_modules/
-/FinantePLFulLStack/dist/
+# ==========================================
+# 🅰️ Angular build folders
+# ==========================================
+FinantePLFulLStack/node_modules/
+FinantePLFulLStack/dist/
+FinantePLFulLStack/.angular/cache
 
-# System / IDE files
+# ==========================================
+# 🧠 IDE / VS / Code files
+# ==========================================
 .vs/
 .vscode/
+.idea/
 *.user
 *.suo
 *.log
+*.launch
+*.sublime-workspace
+*.workspace
+.settings/
+.history/*
 
-# OS files
+# ==========================================
+# ⚙️ Node / npm
+# ==========================================
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+
+# ==========================================
+# 📦 Output folders
+# ==========================================
+dist/
+tmp/
+out-tsc/
+bazel-out/
+coverage/
+connect.lock
+typings/
+__screenshots__/
+libpeerconnection.log
+testem.log
+
+# ==========================================
+# 🧹 System files
+# ==========================================
 Thumbs.db
-*.DS_Store
+.DS_Store
