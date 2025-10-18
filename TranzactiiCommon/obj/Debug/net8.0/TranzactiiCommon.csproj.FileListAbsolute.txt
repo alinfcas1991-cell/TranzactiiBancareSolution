@@ -5,6 +5,7 @@ C:\Users\Andrei91\source\repos\TranzactiiBancareSolution\TranzactiiCommon\obj\De
 C:\Users\Andrei91\source\repos\TranzactiiBancareSolution\TranzactiiCommon\obj\Debug\net8.0\TranzactiiCommon.AssemblyInfoInputs.cache
 C:\Users\Andrei91\source\repos\TranzactiiBancareSolution\TranzactiiCommon\obj\Debug\net8.0\TranzactiiCommon.AssemblyInfo.cs
 C:\Users\Andrei91\source\repos\TranzactiiBancareSolution\TranzactiiCommon\obj\Debug\net8.0\TranzactiiCommon.csproj.CoreCompileInputs.cache
+C:\Users\Andrei91\source\repos\TranzactiiBancareSolution\TranzactiiCommon\obj\Debug\net8.0\TranzactiiCommon.sourcelink.json
 C:\Users\Andrei91\source\repos\TranzactiiBancareSolution\TranzactiiCommon\obj\Debug\net8.0\TranzactiiCommon.dll
 C:\Users\Andrei91\source\repos\TranzactiiBancareSolution\TranzactiiCommon\obj\Debug\net8.0\refint\TranzactiiCommon.dll
 C:\Users\Andrei91\source\repos\TranzactiiBancareSolution\TranzactiiCommon\obj\Debug\net8.0\TranzactiiCommon.pdb

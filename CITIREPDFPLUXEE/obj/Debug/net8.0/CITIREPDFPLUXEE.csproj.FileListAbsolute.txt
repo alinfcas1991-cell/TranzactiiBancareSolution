@@ -8,6 +8,7 @@ C:\Users\Andrei91\source\repos\TranzactiiBancareSolution\CITIREPDFPLUXEE\obj\Deb
 C:\Users\Andrei91\source\repos\TranzactiiBancareSolution\CITIREPDFPLUXEE\obj\Debug\net8.0\CITIREPDFPLUXEE.AssemblyInfoInputs.cache
 C:\Users\Andrei91\source\repos\TranzactiiBancareSolution\CITIREPDFPLUXEE\obj\Debug\net8.0\CITIREPDFPLUXEE.AssemblyInfo.cs
 C:\Users\Andrei91\source\repos\TranzactiiBancareSolution\CITIREPDFPLUXEE\obj\Debug\net8.0\CITIREPDFPLUXEE.csproj.CoreCompileInputs.cache
+C:\Users\Andrei91\source\repos\TranzactiiBancareSolution\CITIREPDFPLUXEE\obj\Debug\net8.0\CITIREPDFPLUXEE.sourcelink.json
 C:\Users\Andrei91\source\repos\TranzactiiBancareSolution\CITIREPDFPLUXEE\obj\Debug\net8.0\CITIREPD.F01DE1BE.Up2Date
 C:\Users\Andrei91\source\repos\TranzactiiBancareSolution\CITIREPDFPLUXEE\obj\Debug\net8.0\CITIREPDFPLUXEE.dll
 C:\Users\Andrei91\source\repos\TranzactiiBancareSolution\CITIREPDFPLUXEE\obj\Debug\net8.0\refint\CITIREPDFPLUXEE.dll
