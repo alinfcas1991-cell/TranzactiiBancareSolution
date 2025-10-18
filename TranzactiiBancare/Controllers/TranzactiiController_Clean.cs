@@ -67,10 +67,11 @@ public class TranzactiiController : ControllerBase
             var parent = _context.TranzactiiING.FirstOrDefault(t => t.Id == parentId);
             if (parent == null)
                 return NotFound($"Tranzacția {parentId} nu există");
-			//test
+            //test
 
-            
-            string endpoint = "https://ocr-bonuri2.cognitiveservices.azure.com/";
+
+            string endpoint = Environment.GetEnvironmentVariable("AZURE_OCR_ENDPOINT");
+            string key = Environment.GetEnvironmentVariable("AZURE_OCR_KEY");
             string url = $"{endpoint}formrecognizer/documentModels/prebuilt-receipt:analyze?api-version=2023-07-31";
             //test
 
