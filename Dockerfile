@@ -36,7 +36,8 @@ WORKDIR /app
 COPY --from=build /app/publish .
 
 # Copiem frontendul în wwwroot/app
-COPY --from=build /src/FinantePLFulLStack/dist /app/wwwroot/app
+COPY --from=build /src/FinantePLFulLStack/dist/browser /app/wwwroot/app
+
 
 # Setăm portul folosit de Render
 ENV ASPNETCORE_URLS=http://+:10000
