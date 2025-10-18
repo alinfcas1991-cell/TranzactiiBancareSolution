@@ -1,7 +1,7 @@
 # ============================
 # 🏗️ STAGE 1: Build backend + frontend
 # ============================
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0-node AS build
 WORKDIR /src
 
 # Copiem totul
@@ -27,7 +27,7 @@ WORKDIR /app
 # Copiem backendul publicat
 COPY --from=build /app/publish .
 
-# Copiem frontend-ul în wwwroot/app
+# Copiem frontendul în wwwroot/app
 COPY --from=build /src/FinantePLFulLStack/dist /app/wwwroot/app
 
 # Setăm portul folosit de Render
