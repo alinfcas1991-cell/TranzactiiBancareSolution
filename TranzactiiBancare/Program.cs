@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.FileProviders;
 using Microsoft.EntityFrameworkCore;
+using Npgsql.EntityFrameworkCore.PostgreSQL; // ✅ adăugat pentru PostgreSQL
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,9 +21,9 @@ builder.Services.AddCors(options =>
     });
 });
 
-// ✅ DbContext
+// ✅ DbContext (PostgreSQL)
 builder.Services.AddDbContext<AppDbContextTranzactiiFinanciare>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
