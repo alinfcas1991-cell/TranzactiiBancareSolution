@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: tranzactii-bancare-api
+    env: docker
+    plan: free
+    autoDeploy: true

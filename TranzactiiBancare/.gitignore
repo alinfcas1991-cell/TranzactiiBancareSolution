@@ -1,0 +1,14 @@
+# Build artifacts
+bin/
+obj/
+
+# User-specific files
+.vs/
+*.user
+*.suo
+
+# Publish outputs
+/app.publish/
+
+# Logs
+*.log

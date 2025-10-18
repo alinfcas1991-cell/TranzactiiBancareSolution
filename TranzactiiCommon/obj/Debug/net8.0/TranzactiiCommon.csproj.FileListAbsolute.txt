@@ -1,0 +1,11 @@
+C:\Users\Andrei91\source\repos\TranzactiiBancareSolution\TranzactiiCommon\bin\Debug\net8.0\TranzactiiCommon.deps.json
+C:\Users\Andrei91\source\repos\TranzactiiBancareSolution\TranzactiiCommon\bin\Debug\net8.0\TranzactiiCommon.dll
+C:\Users\Andrei91\source\repos\TranzactiiBancareSolution\TranzactiiCommon\bin\Debug\net8.0\TranzactiiCommon.pdb
+C:\Users\Andrei91\source\repos\TranzactiiBancareSolution\TranzactiiCommon\obj\Debug\net8.0\TranzactiiCommon.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Andrei91\source\repos\TranzactiiBancareSolution\TranzactiiCommon\obj\Debug\net8.0\TranzactiiCommon.AssemblyInfoInputs.cache
+C:\Users\Andrei91\source\repos\TranzactiiBancareSolution\TranzactiiCommon\obj\Debug\net8.0\TranzactiiCommon.AssemblyInfo.cs
+C:\Users\Andrei91\source\repos\TranzactiiBancareSolution\TranzactiiCommon\obj\Debug\net8.0\TranzactiiCommon.csproj.CoreCompileInputs.cache
+C:\Users\Andrei91\source\repos\TranzactiiBancareSolution\TranzactiiCommon\obj\Debug\net8.0\TranzactiiCommon.dll
+C:\Users\Andrei91\source\repos\TranzactiiBancareSolution\TranzactiiCommon\obj\Debug\net8.0\refint\TranzactiiCommon.dll
+C:\Users\Andrei91\source\repos\TranzactiiBancareSolution\TranzactiiCommon\obj\Debug\net8.0\TranzactiiCommon.pdb
+C:\Users\Andrei91\source\repos\TranzactiiBancareSolution\TranzactiiCommon\obj\Debug\net8.0\ref\TranzactiiCommon.dll
