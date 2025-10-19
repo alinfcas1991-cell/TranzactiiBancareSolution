@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TranzactiiCommon.Models;
+using System;
 
 public class AppDbContextTranzactiiFinanciare : DbContext
 {
@@ -9,11 +11,43 @@ public class AppDbContextTranzactiiFinanciare : DbContext
 
     public DbSet<TranzactiiCommon.Models.TranzactieING> TranzactiiING { get; set; }
 
-
     // 🧠 noua tabelă care va memora ce a învățat AI-ul
     public DbSet<OcrKnowledge> OcrKnowledge { get; set; }
     public DbSet<ImportHistory> ImportHistory { get; set; }
 
+    // ✅ Fix global pentru conversia DateTime la UTC (PostgreSQL-friendly)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        // Forțăm toate câmpurile DateTime / DateTime? să fie UTC
+        foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+        {
+            foreach (var property in entityType.GetProperties())
+            {
+                if (property.ClrType == typeof(DateTime))
+                {
+                    property.SetValueConverter(
+                        new ValueConverter<DateTime, DateTime>(
+                            v => v.Kind == DateTimeKind.Utc ? v : v.ToUniversalTime(),
+                            v => DateTime.SpecifyKind(v, DateTimeKind.Utc))
+                    );
+                }
+                else if (property.ClrType == typeof(DateTime?))
+                {
+                    property.SetValueConverter(
+                        new ValueConverter<DateTime?, DateTime?>(
+                            v => v.HasValue
+                                ? (v.Value.Kind == DateTimeKind.Utc ? v.Value : v.Value.ToUniversalTime())
+                                : v,
+                            v => v.HasValue
+                                ? DateTime.SpecifyKind(v.Value, DateTimeKind.Utc)
+                                : v)
+                    );
+                }
+            }
+        }
+    }
 }
 
 public class OcrKnowledge
