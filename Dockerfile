@@ -22,7 +22,7 @@ RUN dotnet restore "TranzactiiBancare.sln"
 RUN dotnet publish "TranzactiiBancare/TranzactiiBancare.csproj" -c Release -o /app/publish
 
 # 3️⃣ Build frontend Angular
-WORKDIR /src/FinantePLFulLStack
+WORKDIR /src/FinantePLFullStack
 RUN npm install
 RUN npm run build -- --configuration production
 
@@ -36,11 +36,9 @@ WORKDIR /app
 COPY --from=build /app/publish .
 
 # Copiem frontendul în wwwroot/app
-COPY --from=build /src/FinantePLFulLStack/dist/FinantePLFulLStack /app/wwwroot/app
+COPY --from=build /src/FinantePLFullStack/dist/FinantePLFullStack /app/wwwroot/app
 
-
-
-# Setăm portul folosit de Render
+# Configurăm portul Render
 ENV ASPNETCORE_URLS=http://+:10000
 EXPOSE 10000
 
