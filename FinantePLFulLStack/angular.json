@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "FinantePLFulLStack": {
+    "FinantePLFullStack": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -64,10 +64,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "FinantePLFulLStack:build:production"
+              "buildTarget": "FinantePLFullStack:build:production"
             },
             "development": {
-              "buildTarget": "FinantePLFulLStack:build:development"
+              "buildTarget": "FinantePLFullStack:build:development"
             }
           },
           "defaultConfiguration": "development"
