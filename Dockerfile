@@ -36,7 +36,8 @@ WORKDIR /app
 COPY --from=build /app/publish .
 
 # Copiem frontendul în wwwroot/app
-COPY --from=build /src/FinantePLFulLStack/dist/browser /app/wwwroot/app
+COPY --from=build /src/FinantePLFulLStack/dist/FinantePLFulLStack /app/wwwroot/app
+
 
 
 # Setăm portul folosit de Render
