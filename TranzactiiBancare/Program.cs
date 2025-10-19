@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.FileProviders;
 using Microsoft.EntityFrameworkCore;
-using Npgsql.EntityFrameworkCore.PostgreSQL; // ✅ adăugat pentru PostgreSQL
+using TranzactiiBancare;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ✅ CORS
+// ✅ CORS pentru Angular (local + Render)
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngular", policy =>
@@ -14,7 +14,7 @@ builder.Services.AddCors(options =>
                 "https://localhost:4200",
                 "http://192.168.1.6:4200",
                 "https://192.168.1.6:4200",
-                "https://tranzactiibancaresolution.onrender.com" // pentru producție (Render)
+                "https://tranzactiibancaresolution.onrender.com"
             )
             .AllowAnyHeader()
             .AllowAnyMethod();
@@ -31,24 +31,21 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// ✅ Swagger (dev only)
+// ✅ Swagger doar în development
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// ✅ (opțional, îl putem lăsa activ)
+// ✅ HTTPS + CORS
 app.UseHttpsRedirection();
-
-// ✅ Activăm CORS (pentru Angular)
 app.UseCors("AllowAngular");
 
 app.UseAuthorization();
-
 app.MapControllers();
 
-// ✅ Servire fișiere statice din wwwroot/app
+// ✅ Servire Angular din wwwroot/app
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(
@@ -57,7 +54,20 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = ""
 });
 
-// ✅ Fallback către Angular index.html
+// ✅ Fallback Angular
 app.MapFallbackToFile("app/index.html");
+
+// ✅ Pornim aplicația
+Console.WriteLine("🚀 Aplicația pornește...");
+
+// 🔹 Test minimal — afișăm doar ID-ul de folder pentru verificare
+var folderId = Environment.GetEnvironmentVariable("GOOGLE_DRIVE_FOLDER_ID");
+if (string.IsNullOrEmpty(folderId))
+    Console.WriteLine("⚠️ GOOGLE_DRIVE_FOLDER_ID nu este setat în Environment!");
+else
+    Console.WriteLine($"✅ GOOGLE_DRIVE_FOLDER_ID detectat: {folderId}");
+
+// 🔹 Nu mai apelăm GoogleDriveService aici — importul se face automat din Controller
+Console.WriteLine("✅ API online. Importurile CSV/PDF se fac din endpointul /api/Tranzactii/import-csv");
 
 app.Run();

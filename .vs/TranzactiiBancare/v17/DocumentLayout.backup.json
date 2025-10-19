@@ -3,6 +3,18 @@
   "WorkspaceRootPath": "C:\\Users\\Andrei91\\source\\repos\\TranzactiiBancareSolution\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{83BCE7DD-8DF6-B693-FADB-D7A378337F24}|CITIREPDFPLUXEE\\CITIREPDFPLUXEE.csproj|c:\\users\\andrei91\\source\\repos\\tranzactiibancaresolution\\citirepdfpluxee\\pluxeepdfreader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{83BCE7DD-8DF6-B693-FADB-D7A378337F24}|CITIREPDFPLUXEE\\CITIREPDFPLUXEE.csproj|solutionrelative:citirepdfpluxee\\pluxeepdfreader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{07C7E500-5122-16D5-ABB3-43E53BCB01FB}|TranzactiiBancare\\TranzactiiBancare.csproj|c:\\users\\andrei91\\source\\repos\\tranzactiibancaresolution\\tranzactiibancare\\parsers\\csvingparser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{07C7E500-5122-16D5-ABB3-43E53BCB01FB}|TranzactiiBancare\\TranzactiiBancare.csproj|solutionrelative:tranzactiibancare\\parsers\\csvingparser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{07C7E500-5122-16D5-ABB3-43E53BCB01FB}|TranzactiiBancare\\TranzactiiBancare.csproj|c:\\users\\andrei91\\source\\repos\\tranzactiibancaresolution\\tranzactiibancare\\googledriveservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{07C7E500-5122-16D5-ABB3-43E53BCB01FB}|TranzactiiBancare\\TranzactiiBancare.csproj|solutionrelative:tranzactiibancare\\googledriveservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{07C7E500-5122-16D5-ABB3-43E53BCB01FB}|TranzactiiBancare\\TranzactiiBancare.csproj|c:\\users\\andrei91\\source\\repos\\tranzactiibancaresolution\\tranzactiibancare\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{07C7E500-5122-16D5-ABB3-43E53BCB01FB}|TranzactiiBancare\\TranzactiiBancare.csproj|solutionrelative:tranzactiibancare\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -23,25 +35,64 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "PluxeePdfReader.cs",
+              "DocumentMoniker": "C:\\Users\\Andrei91\\source\\repos\\TranzactiiBancareSolution\\CITIREPDFPLUXEE\\PluxeePdfReader.cs",
+              "RelativeDocumentMoniker": "CITIREPDFPLUXEE\\PluxeePdfReader.cs",
+              "ToolTip": "C:\\Users\\Andrei91\\source\\repos\\TranzactiiBancareSolution\\CITIREPDFPLUXEE\\PluxeePdfReader.cs",
+              "RelativeToolTip": "CITIREPDFPLUXEE\\PluxeePdfReader.cs",
+              "ViewState": "AgIAALQAAAAAAAAAAAAUwMcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-19T16:01:26.716Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CsvIngParser.cs",
+              "DocumentMoniker": "C:\\Users\\Andrei91\\source\\repos\\TranzactiiBancareSolution\\TranzactiiBancare\\Parsers\\CsvIngParser.cs",
+              "RelativeDocumentMoniker": "TranzactiiBancare\\Parsers\\CsvIngParser.cs",
+              "ToolTip": "C:\\Users\\Andrei91\\source\\repos\\TranzactiiBancareSolution\\TranzactiiBancare\\Parsers\\CsvIngParser.cs",
+              "RelativeToolTip": "TranzactiiBancare\\Parsers\\CsvIngParser.cs",
+              "ViewState": "AgIAAHsBAAAAAAAAAAAswJoBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-19T15:59:58.606Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "GoogleDriveService.cs",
+              "DocumentMoniker": "C:\\Users\\Andrei91\\source\\repos\\TranzactiiBancareSolution\\TranzactiiBancare\\GoogleDriveService.cs",
+              "RelativeDocumentMoniker": "TranzactiiBancare\\GoogleDriveService.cs",
+              "ToolTip": "C:\\Users\\Andrei91\\source\\repos\\TranzactiiBancareSolution\\TranzactiiBancare\\GoogleDriveService.cs",
+              "RelativeToolTip": "TranzactiiBancare\\GoogleDriveService.cs",
+              "ViewState": "AgIAAGkAAAAAAAAAAAAswIgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-19T15:23:46.545Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Andrei91\\source\\repos\\TranzactiiBancareSolution\\TranzactiiBancare\\Program.cs",
               "RelativeDocumentMoniker": "TranzactiiBancare\\Program.cs",
               "ToolTip": "C:\\Users\\Andrei91\\source\\repos\\TranzactiiBancareSolution\\TranzactiiBancare\\Program.cs",
               "RelativeToolTip": "TranzactiiBancare\\Program.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAAADEAAAAsAAAAAAAAAA==",
+              "ViewState": "AgIAACkAAAAAAAAAAAAUwEkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-18T20:19:04.04Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "TranzactiiController_Clean.cs",
               "DocumentMoniker": "C:\\Users\\Andrei91\\source\\repos\\TranzactiiBancareSolution\\TranzactiiBancare\\Controllers\\TranzactiiController_Clean.cs",
               "RelativeDocumentMoniker": "TranzactiiBancare\\Controllers\\TranzactiiController_Clean.cs",
               "ToolTip": "C:\\Users\\Andrei91\\source\\repos\\TranzactiiBancareSolution\\TranzactiiBancare\\Controllers\\TranzactiiController_Clean.cs",
               "RelativeToolTip": "TranzactiiBancare\\Controllers\\TranzactiiController_Clean.cs",
-              "ViewState": "AgIAAFMDAAAAAAAAAAAAAGgDAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAH8DAAAAAAAAAAAkwJ0DAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-18T20:18:21.617Z",
               "EditorCaption": ""

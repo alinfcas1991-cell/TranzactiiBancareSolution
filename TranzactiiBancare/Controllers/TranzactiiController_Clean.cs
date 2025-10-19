@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CITIREPDFPLUXEE;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Globalization;
@@ -6,8 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using TranzactiiBancare;
 using TranzactiiCommon.Models;
-using CITIREPDFPLUXEE;
 
 
 [ApiController]
@@ -333,7 +334,8 @@ public class TranzactiiController : ControllerBase
 
 
 
-
+    //IMPORT LOCAL  
+    /*
     [HttpPost("import-csv")]
     public IActionResult ImportCsv([FromBody] ImportRequest req)
     {
@@ -385,6 +387,56 @@ public class TranzactiiController : ControllerBase
             return StatusCode(500, new { success = false, message = ex.Message });
         }
     }
+    */
+
+    [HttpPost("import-csv")]
+    public IActionResult ImportCsv([FromBody] ImportRequest req)
+    {
+        try
+        {
+            string sursa = req.Sursa?.ToUpperInvariant() ?? "NECUNOSCUT";
+            Console.WriteLine($"🚀 Import automat {sursa} din Google Drive...");
+
+            var folderId = Environment.GetEnvironmentVariable("GOOGLE_DRIVE_FOLDER_ID");
+            var drive = new GoogleDriveService();
+            string filePath = null;
+
+            // 🔹 Alegem în funcție de sursă
+            if (sursa == "ING")
+                filePath = drive.DownloadLatestCsv(folderId);
+            else if (sursa == "PLUXEE")
+                filePath = drive.DownloadLatestPdf(folderId);
+
+            if (string.IsNullOrEmpty(filePath) || !System.IO.File.Exists(filePath))
+                return NotFound($"❌ Nu am găsit fișierul pentru sursa {sursa}.");
+
+            Console.WriteLine($"📂 Se importă fișierul: {filePath}");
+
+            if (sursa == "ING")
+            {
+                var parser = new CsvIngParser(_context);
+                parser.ImportFromCsv(filePath, sursa);
+                if (req.AutoSplit)
+                    parser.AutoSplitSpecialTransactions();
+            }
+            else if (sursa == "PLUXEE")
+            {
+                var tranzactii = CITIREPDFPLUXEE.PluxeePdfReader.Parse(filePath);
+                _context.TranzactiiING.AddRange(tranzactii);
+            }
+
+            _context.SaveChanges();
+            Console.WriteLine($"✅ Import {sursa} finalizat cu succes!");
+            return Ok(new { success = true, message = $"✅ Import {sursa} finalizat!" });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"🔥 Eroare import {req.Sursa}: {ex.Message}");
+            return StatusCode(500, new { success = false, message = ex.Message });
+        }
+    }
+
+
 
 
     public class ImportRequest

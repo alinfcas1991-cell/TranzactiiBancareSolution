@@ -12,3 +12,7 @@ obj/
 
 # Logs
 *.log
+
+# Google OAuth
+credentials.json
+token.json
