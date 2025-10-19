@@ -7,9 +7,9 @@ obj/
 # ==========================================
 # 🅰️ Angular build folders
 # ==========================================
-FinantePLFulLStack/node_modules/
-FinantePLFulLStack/dist/
-FinantePLFulLStack/.angular/cache
+FinantePLFullStack/node_modules/
+FinantePLFullStack/dist/
+FinantePLFullStack/.angular/cache
 
 # ==========================================
 # 🧠 IDE / VS / Code files
