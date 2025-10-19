@@ -35,11 +35,15 @@ WORKDIR /app
 # Copiem backendul publicat
 COPY --from=build /app/publish .
 
-# Copiem frontendul în wwwroot/app
-COPY --from=build /src/FinantePLFullStack/dist/FinantePLFullStack /app/wwwroot/app
+# ⚠️ Curățăm orice rămășițe vechi din wwwroot
+RUN rm -rf /app/wwwroot/*
+
+# ✅ Copiem DOAR conținutul din dist/.../browser în wwwroot/app
+COPY --from=build /src/FinantePLFullStack/dist/FinantePLFullStack/browser/ /app/wwwroot/app/
 
 # Configurăm portul Render
 ENV ASPNETCORE_URLS=http://+:10000
 EXPOSE 10000
 
 ENTRYPOINT ["dotnet", "TranzactiiBancare.dll"]
+
