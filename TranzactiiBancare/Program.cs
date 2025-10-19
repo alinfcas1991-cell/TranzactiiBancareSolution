@@ -31,6 +31,14 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// ✅ Rulează automat migrațiile la startup
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContextTranzactiiFinanciare>();
+    db.Database.Migrate();
+}
+
+
 // ✅ Swagger doar în development
 if (app.Environment.IsDevelopment())
 {
