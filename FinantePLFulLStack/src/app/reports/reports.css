@@ -1,0 +1,649 @@
+.reports-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  color: #fff;
+  padding: 1.5rem;
+}
+
+/* ===== CARD generic ===== */
+.raport-card {
+	color: #f5f5f5; /* text alb gri deschis */
+  background: rgba(20, 22, 35, 0.85);
+  border-radius: 14px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 1.2rem 1.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.raport-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+}
+
+/* ===== Layout principal ===== */
+.raport-layout {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;   /* 🟢 aliniere pe verticală */
+  gap: 2rem;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+/* ===== TITLURI CARDURI ===== */
+.raport-card h3 {
+  font-weight: 600;
+  color: #90caf9;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ====== CARD TOTAL ====== */
+.total-card {
+  text-align: center;
+  background: linear-gradient(90deg, rgba(63,81,181,0.9), rgba(33,150,243,0.85));
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  border: none;
+}
+
+.total-valoare {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffeb3b;
+  text-shadow: 0 0 10px rgba(255,255,0,0.6);
+  margin-top: 0.3rem;
+}
+
+/* ====== RADIO & DATEPICKER ====== */
+.radio-group {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 0.5rem;
+  color:#fff;
+}
+mat-radio-button {
+	
+	color:#fff;
+}
+
+.custom-dates {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* ===== TABEL ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #fff;
+}
+
+th.mat-header-cell {
+  background: linear-gradient(90deg, #3949ab, #1e88e5);
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
+}
+
+td.mat-cell {
+  text-align: center;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  cursor: pointer;
+  padding: 8px;
+}
+
+td.mat-cell:hover {
+  background: rgba(255,255,255,0.1);
+  transition: 0.2s;
+}
+
+.chart-card {
+  flex: 1;
+  min-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+  height: auto;              /* 🟢 scosă fixarea pe 500px */
+}
+
+/* ===== CHART ===== */
+.chart-card canvas {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  margin: 1rem auto 0 auto;
+}
+
+.filters-card {
+  background: linear-gradient(90deg, rgba(48,63,159,0.85), rgba(30,136,229,0.8));
+  color: #fff; /* 🟢 text alb complet */
+  border-radius: 14px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.45);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 1.2rem 1.5rem;
+}
+
+.filters-card h3 {
+  color: #ffeb3b;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.mat-mdc-form-field, .mat-mdc-radio-group, .mat-mdc-radio-button label {
+  color: #fff !important; /* text alb inclusiv pentru radio & form */
+}
+.raport-chart {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 1rem;
+  height: 500px;
+  width: 100%;
+  overflow: hidden;        /* 🟢 previne scroll jump */
+}
+
+canvas {
+  width: 100%;
+  max-width: 450px;
+  height: 450px;
+  user-select: none;       /* 🟢 oprește highlight / focus */
+  outline: none;
+}
+.tabel-card {
+  flex: 1;
+  min-width: 350px;
+  max-width: 450px;
+}
+
+.chart-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-wrapper {
+  width: 100%;
+  max-width: 420px;
+  height: 420px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.chart-wrapper canvas {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 420px;
+  max-height: 420px;
+}
+
+/* ===== STIL RADIO-BUTTONURI ===== */
+.mat-mdc-radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.mat-mdc-radio-button {
+  color: #fff !important;  /* text alb */
+  font-weight: 500;
+  --mdc-theme-text-primary-on-background: #fff;
+}
+
+/* Cercul selectat + hover */
+.mat-mdc-radio-button .mdc-radio__native-control:enabled + .mdc-radio__background .mdc-radio__outer-circle {
+  border-color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.mat-mdc-radio-button .mdc-radio__native-control:enabled + .mdc-radio__background .mdc-radio__inner-circle {
+  border-color: #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+/* Textul alb și mai luminos la select */
+.mat-mdc-radio-button.mat-mdc-radio-checked label,
+.mat-mdc-radio-button label {
+  color: #fff !important;
+}
+
+.mat-mdc-radio-button:hover label {
+  color: #ffeb3b !important; /* un galben subtil la hover */
+  transition: 0.2s;
+}
+.mat-mdc-radio-button.mat-mdc-radio-checked {
+  filter: drop-shadow(0 0 6px rgba(255,255,255,0.6));
+}
+
+/* ===== STIL RADIO MDC ===== */
+.mat-mdc-radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* Textul butoanelor */
+.mat-mdc-radio-button .mdc-label {
+  color: #fff !important;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+}
+
+/* Hover subtil */
+.mat-mdc-radio-button:hover .mdc-label {
+  color: #ffeb3b !important;
+}
+
+/* Cercul exterior */
+.mat-mdc-radio-button .mdc-radio__outer-circle {
+  border-color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Cercul interior (cel plin când e selectat) */
+.mat-mdc-radio-button .mdc-radio__inner-circle {
+  border-color: #fff !important;
+  background-color: #fff !important;
+}
+
+/* Asigurăm culoarea și la stare activă */
+.mat-mdc-radio-button.mat-mdc-radio-checked .mdc-radio__outer-circle {
+  border-color: #fff !important;
+}
+
+.mat-mdc-radio-button.mat-mdc-radio-checked .mdc-radio__inner-circle {
+  border-color: #fff !important;
+  background-color: #fff !important;
+}
+
+/* Glow subtil la select */
+.mat-mdc-radio-button.mat-mdc-radio-checked {
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+}
+
+/* ==========================================================
+   🔹 RADIO GROUP – Stil tip "FinantePLFullStack"
+========================================================== */
+.perioada-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  margin: 10px 0 16px 0;
+}
+
+/* Toate radio button-urile – text alb, bold */
+:host ::ng-deep .perioada-group mat-radio-button {
+  color: #fff !important;
+  font-weight: 600 !important;
+  font-size: 0.95rem !important;
+  text-transform: none;
+  transition: all 0.25s ease;
+  border-radius: 10px;
+  padding: 4px 10px;
+}
+
+/* Buton selectat – fundal gradient albastru + glow */
+:host ::ng-deep .perioada-group mat-radio-button.mat-mdc-radio-checked {
+  background: linear-gradient(90deg, #4fc3f7, #1976d2);
+  color: #fff !important;
+  border-radius: 8px;
+  padding: 4px 12px;
+  box-shadow: 0 0 12px rgba(66, 165, 245, 0.4);
+  transform: scale(1.05);
+}
+
+/* Hover – mic efect de strălucire */
+:host ::ng-deep .perioada-group mat-radio-button:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  transform: scale(1.03);
+}
+
+/* Eliminăm bulina internă (o ascundem complet) */
+:host ::ng-deep .perioada-group .mdc-radio__background {
+  display: none !important;
+}
+
+/* Centrare text + padding mai curat */
+:host ::ng-deep .perioada-group .mdc-form-field {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+}
+
+/* Glow animat pe cel selectat */
+@keyframes softPulse {
+  0% { box-shadow: 0 0 8px rgba(66, 165, 245, 0.4); }
+  50% { box-shadow: 0 0 16px rgba(66, 165, 245, 0.7); }
+  100% { box-shadow: 0 0 8px rgba(66, 165, 245, 0.4); }
+}
+:host ::ng-deep .perioada-group mat-radio-button.mat-mdc-radio-checked {
+  animation: softPulse 2s ease-in-out infinite;
+}
+
+/* ==========================================================
+   🔹 TABEL RAPORT – Stil modern cu efect neon subtil
+========================================================== */
+
+/* Containerul tabelului – puțin mai lat */
+.tabel-card {
+  flex: 1.2;               /* 🟢 face tabelul puțin mai lat față de chart */
+  min-width: 420px;
+  max-width: 520px;
+}
+
+/* Tabelul propriu-zis */
+.tabel-card table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Header – gradient albastru + text alb */
+.tabel-card th.mat-header-cell {
+  background: linear-gradient(90deg, #1e88e5, #42a5f5);
+  color: #fff;
+  font-weight: 600;
+  text-align: center;
+  padding: 10px;
+  border: none;
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+}
+
+/* Rânduri zebra + efect de lumină */
+.tabel-card tr.mat-mdc-row:nth-child(odd) td.mat-cell {
+  background: rgba(255, 255, 255, 0.03);
+}
+.tabel-card tr.mat-mdc-row:nth-child(even) td.mat-cell {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* Text alb curat + efect subtil */
+.tabel-card td.mat-cell {
+  color: #e3f2fd;
+  text-align: center;
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  transition: all 0.25s ease;
+}
+
+/* Hover pe rând – efect albastru neon */
+.tabel-card tr.mat-mdc-row:hover td.mat-cell {
+  background: linear-gradient(90deg, rgba(33,150,243,0.15), rgba(33,150,243,0.05));
+  color: #fff;
+  box-shadow: inset 0 0 12px rgba(33,150,243,0.25);
+  transform: scale(1.002);
+}
+
+/* Colțuri rotunjite și mică umbră de ansamblu */
+.tabel-card table {
+  box-shadow: 0 0 25px rgba(0,0,0,0.5);
+  border-radius: 12px;
+}
+
+/* Opțional: efect neon discret pe titlu */
+.tabel-card h3 {
+  text-shadow: 0 0 6px rgba(66,165,245,0.6);
+}
+/* ============================================================
+   🔹 STIL GLOBAL – Radio Buttons "Perioadă" (alb + glow)
+   ============================================================ */
+::ng-deep .mat-mdc-radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  padding: 8px 0;
+}
+
+::ng-deep .mat-mdc-radio-button {
+  --mdc-theme-text-primary-on-background: #fff;
+  color: #fff !important;
+  font-weight: 600 !important;
+  font-size: 0.95rem !important;
+  letter-spacing: 0.3px;
+  border-radius: 8px;
+  padding: 4px 12px;
+  transition: all 0.25s ease;
+}
+
+/* 🔹 elimină bulina internă */
+::ng-deep .mat-mdc-radio-button .mdc-radio__background {
+  display: none !important;
+}
+
+/* 🔹 text și form-field */
+::ng-deep .mat-mdc-radio-button .mdc-label {
+  color: #fff !important;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+/* 🔹 hover */
+::ng-deep .mat-mdc-radio-button:hover .mdc-label {
+  color: #ffeb3b !important;
+}
+
+/* 🔹 buton selectat – albastru gradient + glow */
+::ng-deep .mat-mdc-radio-button.mat-mdc-radio-checked {
+  background: linear-gradient(90deg, #42a5f5, #1976d2);
+  color: #fff !important;
+  box-shadow: 0 0 15px rgba(33, 150, 243, 0.6);
+  border-radius: 10px;
+  transform: scale(1.05);
+  animation: softPulse 2s ease-in-out infinite;
+}
+
+/* 🔹 glow animat */
+@keyframes softPulse {
+  0% { box-shadow: 0 0 8px rgba(66, 165, 245, 0.3); }
+  50% { box-shadow: 0 0 18px rgba(66, 165, 245, 0.7); }
+  100% { box-shadow: 0 0 8px rgba(66, 165, 245, 0.3); }
+}
+
+/* 🔹 hover efect global */
+::ng-deep .mat-mdc-radio-button:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: scale(1.03);
+}
+
+/* 🔹 centrare text pe linie */
+::ng-deep .mat-mdc-radio-button .mdc-form-field {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+/* ==========================================================
+   🔹 TEXT ALB CLAR ÎN TABEL RAPORT
+========================================================== */
+.tabel-card td.mat-cell,
+.tabel-card th.mat-header-cell {
+  color: #ffffff !important;         /* 🟢 text alb complet */
+  text-shadow: 0 0 4px rgba(0,0,0,0.4); /* mică umbră pt lizibilitate */
+}
+
+/* ușor glow la hover */
+.tabel-card tr.mat-mdc-row:hover td.mat-cell {
+  color: #fff !important;
+  text-shadow: 0 0 6px rgba(255,255,255,0.7);
+}
+
+/* numericele (total lei) un pic mai bold */
+.tabel-card td.mat-cell:last-child {
+  font-weight: 600;
+}
+
+/* ==========================================================
+   🧠 FORȚARE TEXT ALB ÎN TABEL Angular Material
+========================================================== */
+::ng-deep td.mat-mdc-cell.mdc-data-table__cell,
+::ng-deep th.mat-mdc-header-cell.mdc-data-table__header-cell {
+  color: #ffffff !important;
+  font-weight: 500 !important;
+  text-shadow: 0 0 4px rgba(0,0,0,0.5);
+}
+
+/* 🔹 inclusiv pentru coloana TOTAL */
+::ng-deep td.mat-mdc-cell.cdk-column-total,
+::ng-deep th.mat-mdc-header-cell.cdk-column-total {
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  text-shadow: 0 0 6px rgba(0,0,0,0.7);
+}
+
+/* 🔹 la hover – mic efect de glow */
+::ng-deep tr.mat-mdc-row:hover td.mat-mdc-cell {
+  color: #ffffff !important;
+  text-shadow: 0 0 8px rgba(255,255,255,0.6);
+}
+
+/* 🔹 header fix cu contrast mai bun */
+::ng-deep th.mat-mdc-header-cell {
+  background: linear-gradient(90deg, #1976d2, #42a5f5) !important;
+  color: #fff !important;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+}
+/* ==========================================================
+   🔹 RAPORT – Aliniere numerică & spațiere elegantă
+========================================================== */
+
+/* Aliniere numerice la dreapta */
+::ng-deep td.mat-mdc-cell.cdk-column-total {
+  text-align: right !important;
+  padding-right: 18px !important;
+  font-variant-numeric: tabular-nums; /* 🔢 cifre perfect aliniate */
+}
+
+/* Lățime mai aerisită între coloane */
+::ng-deep td.mat-mdc-cell,
+::ng-deep th.mat-mdc-header-cell {
+  padding: 10px 18px !important;
+}
+
+/* Header puțin mai compact pe înălțime */
+::ng-deep th.mat-mdc-header-cell {
+  height: 42px !important;
+}
+.reports-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  color: #fff;
+  padding: 1.5rem;
+}
+
+/* ===== CARD generic ===== */
+.raport-card {
+  background: rgba(12, 14, 25, 0.88);
+  border-radius: 16px;
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 1.3rem;
+  transition: 0.3s;
+}
+.raport-card:hover {
+  box-shadow: 0 0 25px rgba(0, 180, 255, 0.4);
+}
+
+/* ===== TITLURI ===== */
+.raport-card h3 {
+  color: #4fc3f7;
+  text-shadow: 0 0 8px rgba(79,195,247,0.8);
+  margin-bottom: 0.8rem;
+}
+
+/* ===== TOTAL GENERAL ===== */
+.total-general td {
+  background: linear-gradient(90deg,#1976d2,#42a5f5);
+  color: #fff !important;
+  font-weight: 700;
+  text-align: right;
+  text-shadow: 0 0 8px rgba(255,255,255,0.8);
+  animation: fadeInUp 0.8s ease;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== TOTAL CARD ===== */
+.total-card {
+  background: linear-gradient(90deg,#283593,#1e88e5);
+  text-align: center;
+  border: none;
+  color: #fff;
+  box-shadow: 0 0 25px rgba(0,0,255,0.3);
+}
+.total-valoare {
+  font-size: 2.2rem;
+  color: #ffeb3b;
+  font-weight: 700;
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+@keyframes pulseGlow {
+  0%,100% { text-shadow: 0 0 8px #ffeb3b; }
+  50% { text-shadow: 0 0 22px #fff176; }
+}
+
+/* ===== TABEL ===== */
+.tabel-card table {
+  width: 100%;
+  border-collapse: collapse;
+}
+::ng-deep td.mat-mdc-cell, ::ng-deep th.mat-mdc-header-cell {
+  color: #fff !important;
+  padding: 10px 18px !important;
+}
+.tabel-card tr:nth-child(odd) td { background: rgba(255,255,255,0.05); }
+.tabel-card tr:nth-child(even) td { background: rgba(255,255,255,0.08); }
+.tabel-card tr:hover td {
+  background: linear-gradient(90deg, rgba(33,150,243,0.3), rgba(33,150,243,0.1));
+  box-shadow: inset 0 0 12px rgba(33,150,243,0.4);
+}
+
+/* ===== PIE CHART ===== */
+.chart-card {
+  flex: 1;
+  background: radial-gradien
+}
+
+.clickable-cell {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.clickable-cell:hover {
+  color: #ffeb3b;
+  text-shadow: 0 0 8px rgba(255,235,59,0.8);
+}

@@ -1,0 +1,57 @@
+<div class="dashboard-container">
+  <h2>📊 Dashboard Financiar</h2>
+
+  <!-- Meniu navigație -->
+  <div class="menu">
+    <a routerLink="/tranzactii" routerLinkActive="active">📋 Toate tranzacțiile</a>
+    <a routerLink="/venituri" routerLinkActive="active">💰 Venituri</a>
+    <a routerLink="/cheltuieli" routerLinkActive="active">💸 Cheltuieli</a>
+  </div>
+
+  <!-- Aici Angular încarcă componentele rulate prin router -->
+  <router-outlet></router-outlet>
+
+  <!-- Cardurile de sumar existente -->
+  <div class="cards">
+    <div class="card venit" routerLink="/venituri" style="cursor: pointer;">
+      <h3>💰 Venituri</h3>
+      <p>{{ totalVenituri | number:'1.2-2' }} lei</p>
+    </div>
+
+    <div class="card cheltuieli" routerLink="/cheltuieli" style="cursor: pointer;">
+      <h3>💸 Cheltuieli</h3>
+      <p>{{ totalCheltuieli | number:'1.2-2' }} lei</p>
+    </div>
+
+    <div class="card sold" routerLink="/tranzactii" style="cursor: pointer;">
+      <h3>📈 Sold Final</h3>
+      <p>{{ soldFinal | number:'1.2-2' }} lei</p>
+    </div>
+
+    <div class="card economii" routerLink="/rapoarte" style="cursor: pointer;">
+      <h3>🏦 Economii</h3>
+      <p>{{ economii | number:'1.2-2' }} lei</p>
+    </div>
+  </div>
+
+  <!-- Cardurile ING / Pluxee / Cash -->
+  <div class="bank-cards">
+    <div class="bank-card">
+      <img src="assets/img/ing.png" alt="ING" />
+      <h3>💳 ING</h3>
+      <p>11908,71 RON</p>
+    </div>
+
+    <div class="bank-card">
+      <img src="assets/img/pluxee.png" alt="Pluxee" />
+      <h3>🍔 Pluxee</h3>
+      <p>887.81 RON</p>
+    </div>
+
+    <div class="bank-card">
+      <img src="assets/img/cash.png" alt="Cash" />
+      <h3>💵 Cash</h3>
+      <p>150 RON</p>
+    </div>
+  </div>
+</div>

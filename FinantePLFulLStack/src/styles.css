@@ -1,0 +1,89 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.ocr-preview-dialog .mat-mdc-dialog-container {
+  background: #1b1b28 !important;
+  color: #fff;
+  border-radius: 12px;
+  padding: 10px;
+  max-width: 95vw;
+}
+
+router-outlet {
+  display: contents !important; /* 🔹 dispare complet din fluxul vizual */
+  background: transparent !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+/* =======================================================
+   🔹 HEADER NAVBAR (mat-toolbar principal)
+======================================================= */
+mat-toolbar.mat-primary {
+  background: linear-gradient(90deg, #4a148c, #7b1fa2, #8e24aa);
+  color: #fff !important;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.5);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+}
+
+/* Hover / focus pentru butoane de meniu */
+mat-toolbar button,
+mat-toolbar a {
+  color: #fff !important;
+  font-weight: 500;
+  text-transform: uppercase;
+  transition: 0.25s ease;
+}
+
+mat-toolbar button:hover,
+mat-toolbar a:hover {
+  color: #ffeb3b !important;
+  transform: scale(1.05);
+}
+
+/* 🔹 Meniu activ (pagina curentă) */
+mat-toolbar .active {
+  color: #00e676 !important;
+  font-weight: 700;
+  border-bottom: 2px solid #00e676;
+  text-shadow: 0 0 8px rgba(0, 230, 118, 0.8);
+}
+
+/* 🔹 Logo / titlu aplicație */
+mat-toolbar .app-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #ffffff;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* 🔹 Secțiune dreaptă (Setări, utilizator etc.) */
+mat-toolbar .toolbar-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+mat-toolbar .toolbar-right mat-icon {
+  color: #fff;
+  transition: 0.3s ease;
+}
+
+mat-toolbar .toolbar-right mat-icon:hover {
+  color: #ffeb3b;
+  transform: scale(1.2);
+}
+
+/* Efect vizual subtil la scroll */
+mat-toolbar.mat-primary.sticky {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  background: linear-gradient(90deg, #6a1b9a, #8e24aa, #ab47bc);
+}
+

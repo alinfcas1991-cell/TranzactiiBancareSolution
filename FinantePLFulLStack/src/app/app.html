@@ -1,0 +1,13 @@
+<mat-toolbar color="primary">
+  <span>{{ title }}</span>
+  <span class="spacer"></span>
+  <a mat-button routerLink="/">Home</a>
+  <a mat-button routerLink="/tranzactii">Tranzacții</a>
+  <a mat-button routerLink="/rapoarte">Rapoarte</a>
+  <a mat-button routerLink="/setari">Setări</a>
+</mat-toolbar>
+
+<div class="main-container">
+  <router-outlet></router-outlet>
+</div>
+

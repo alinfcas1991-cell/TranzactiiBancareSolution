@@ -1,0 +1,69 @@
+<div class="reports-container">
+
+  <!-- 💰 TOTAL GENERAL -->
+  <div class="raport-card total-card">
+    <h3>💰 Total cheltuieli în perioada selectată:</h3>
+    <div class="total-valoare animate-total">
+      {{ calculeazaTotal() | number:'1.2-2' }} lei
+    </div>
+  </div>
+
+  <!-- 🗓️ FILTRARE PERIOADĂ -->
+  <div class="raport-card filters-card">
+    <h3>🗓️ Filtrare perioadă</h3>
+
+    <div class="radio-group">
+      <mat-radio-group [(ngModel)]="perioadaSelectata" (change)="selecteazaPerioada()">
+        <mat-radio-button *ngFor="let d of perioade" [value]="d.val">{{ d.label }}</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <button mat-raised-button color="primary" (click)="incarcaRaport()">🔄 Generează raport</button>
+  </div>
+
+  <!-- 📊 RAPORT -->
+  <div class="raport-layout" *ngIf="raportCategorii.length > 0">
+    <!-- 📋 TABEL -->
+    <div class="raport-card tabel-card">
+      <h3>📋 Cheltuieli pe categorii</h3>
+      <table mat-table [dataSource]="raportCategorii">
+        <ng-container matColumnDef="categorie">
+          <th mat-header-cell *matHeaderCellDef>Categorie</th>
+          <td mat-cell *matCellDef="let r"
+    (mouseenter)="highlightCategory(r.categorie)"
+    (click)="deschideDetalii(r.categorie)"
+    class="clickable-cell">
+  {{ r.categorie }}
+</td>
+
+        </ng-container>
+
+        <ng-container matColumnDef="total">
+          <th mat-header-cell *matHeaderCellDef>Total (lei)</th>
+          <td mat-cell *matCellDef="let r">{{ r.total | number:'1.2-2' }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="['categorie','total']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['categorie','total'];"></tr>
+
+        <!-- 🟢 TOTAL GENERAL -->
+        <tr class="total-general">
+          <td>TOTAL GENERAL</td>
+          <td>{{ calculeazaTotal() | number:'1.2-2' }} lei</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- 🍰 PIE CHART -->
+    <div class="raport-card chart-card">
+      <h3>📊 Distribuție vizuală</h3>
+      <p class="mini-legend">Total: {{ calculeazaTotal() | number:'1.2-2' }} lei</p>
+      <canvas baseChart
+              [data]="pieChartData"
+              [type]="'pie'"
+              [options]="pieChartOptions">
+      </canvas>
+    </div>
+  </div>
+
+</div>
