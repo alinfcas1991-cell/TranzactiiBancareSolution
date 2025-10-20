@@ -122,7 +122,19 @@ namespace CITIREPDFPLUXEE
     }
 
     tranzactii.Reverse(); // inversăm ca să fie cronologic
-    return tranzactii;
+
+            // 🔹 Asigurăm completarea automată a câmpurilor lipsă
+            foreach (var t in tranzactii)
+            {
+                t.SursaCard = "PLUXEE";
+                t.EsteCredit = false; // Pluxee sunt plăți (debit)
+                t.TipTranzactie ??= "Purchase";
+                t.Categorie ??= "Tranzactie Pluxee";
+                t.Detalii ??= "(import automat PDF)";
+            }
+
+
+            return tranzactii;
 }
 
 

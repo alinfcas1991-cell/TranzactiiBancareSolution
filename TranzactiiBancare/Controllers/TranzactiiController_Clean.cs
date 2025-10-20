@@ -51,6 +51,22 @@ public class TranzactiiController : ControllerBase
         return sb.ToString().Normalize(NormalizationForm.FormC).ToLower();
     }
 
+    // adaugă în TranzactiiController_Clean.cs (unde ai deja metoda Normalize)
+    private string MakePluxeeKey(TranzactiiCommon.Models.TranzactieING t, string sursa)
+    {
+        // rotunjim suma la 2 zecimale pentru stabilitate
+        var suma = Math.Abs(t.Suma ?? 0m);
+        var sumStr = suma.ToString("0.00", CultureInfo.InvariantCulture);
+
+        var merchant = (t.Merchant ?? "").Trim().ToUpperInvariant();
+        var data = (t.DataTranzactie ?? DateTime.MinValue);
+
+        // includem și ora/minutul (în extrasele Pluxee apare timestamp)
+        return $"{sursa}|{data:yyyyMMddHHmm}|{sumStr}|{merchant}";
+    }
+
+
+
     // ======================================================
     // 🔹 OCR + AI learning (cu log și try/catch complet)
     // ======================================================
@@ -333,14 +349,16 @@ public class TranzactiiController : ControllerBase
     }
 
 
+    /*
 
     //IMPORT LOCAL  
-    /*
+    
     [HttpPost("import-csv")]
     public IActionResult ImportCsv([FromBody] ImportRequest req)
     {
         try
         {
+            Console.WriteLine("🔥🔥🔥 ImportCsv() A FOST APELAT 🔥🔥🔥");
             string sursa = req.Sursa?.ToUpperInvariant() ?? "NECUNOSCUT";
             string folderPath = @"G:\My Drive\DriveSyncFiles";
 
@@ -389,45 +407,154 @@ public class TranzactiiController : ControllerBase
     }
     */
 
+
+
     [HttpPost("import-csv")]
     public IActionResult ImportCsv([FromBody] ImportRequest req)
     {
         try
         {
+            Console.WriteLine("🔥🔥🔥 ImportCsv() A FOST APELAT 🔥🔥🔥");
             string sursa = req.Sursa?.ToUpperInvariant() ?? "NECUNOSCUT";
-            Console.WriteLine($"🚀 Import automat {sursa} din Google Drive...");
+            Console.WriteLine($"📦 PRIMIT JSON: {JsonSerializer.Serialize(req)}");
+            Console.WriteLine($"🎯 După normalizare: sursa = '{sursa}'");
 
+            // ============================================================
+            // 🔹 1️⃣ Dacă lipsesc cheile Google, fallback automat la local
+            // ============================================================
+            var googleSecret = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET_JSON");
+            var googleToken = Environment.GetEnvironmentVariable("GOOGLE_TOKEN_JSON");
             var folderId = Environment.GetEnvironmentVariable("GOOGLE_DRIVE_FOLDER_ID");
-            var drive = new GoogleDriveService();
+
+            bool useGoogle = !string.IsNullOrEmpty(googleSecret) &&
+                             !string.IsNullOrEmpty(googleToken) &&
+                             !string.IsNullOrEmpty(folderId);
+
             string filePath = null;
 
-            // 🔹 Alegem în funcție de sursă
-            if (sursa == "ING")
-                filePath = drive.DownloadLatestCsv(folderId);
-            else if (sursa == "PLUXEE")
-                filePath = drive.DownloadLatestPdf(folderId);
+            // ============================================================
+            // 🔹 2️⃣ Alegem sursa de fișier (Google sau local fallback)
+            // ============================================================
+            if (useGoogle)
+            {
+                Console.WriteLine("☁️ Mod Google Drive activ — încerc să descarc fișierul...");
+                var drive = new GoogleDriveService();
+
+                if (sursa == "ING")
+                    filePath = drive.DownloadLatestCsv(folderId);
+                else if (sursa == "PLUXEE")
+                    filePath = drive.DownloadLatestPdf(folderId);
+            }
+            else
+            {
+                Console.WriteLine("💾 Mod LOCAL fallback — lipsesc cheile Google, citesc din folder local.");
+                string folderPath = @"G:\My Drive\DriveSyncFiles";
+
+                if (!Directory.Exists(folderPath))
+                    return NotFound("Folderul CSV/PDF local nu există.");
+
+                filePath = sursa switch
+                {
+                    "PLUXEE" => Directory.GetFiles(folderPath, "*.pdf")
+                                         .OrderByDescending(f => System.IO.File.GetCreationTime(f))
+                                         .FirstOrDefault(),
+
+                    "ING" => Directory.GetFiles(folderPath, "*.csv")
+                                       .OrderByDescending(f => System.IO.File.GetCreationTime(f))
+                                       .FirstOrDefault(),
+
+                    _ => null
+                };
+            }
 
             if (string.IsNullOrEmpty(filePath) || !System.IO.File.Exists(filePath))
+            {
+                Console.WriteLine($"⚠️ Nu am găsit fișier pentru {sursa}");
                 return NotFound($"❌ Nu am găsit fișierul pentru sursa {sursa}.");
+            }
 
             Console.WriteLine($"📂 Se importă fișierul: {filePath}");
 
+            // ============================================================
+            // 🔹 3️⃣ ING — CSV import
+            // ============================================================
             if (sursa == "ING")
             {
                 var parser = new CsvIngParser(_context);
                 parser.ImportFromCsv(filePath, sursa);
+
                 if (req.AutoSplit)
                     parser.AutoSplitSpecialTransactions();
-            }
-            else if (sursa == "PLUXEE")
-            {
-                var tranzactii = CITIREPDFPLUXEE.PluxeePdfReader.Parse(filePath);
-                _context.TranzactiiING.AddRange(tranzactii);
+
+                _context.SaveChanges();
+                Console.WriteLine("✅ Import ING finalizat cu succes!");
             }
 
-            _context.SaveChanges();
-            Console.WriteLine($"✅ Import {sursa} finalizat cu succes!");
-            return Ok(new { success = true, message = $"✅ Import {sursa} finalizat!" });
+            // ============================================================
+            // 🔹 4️⃣ PLUXEE — PDF import + anti-dublură
+            // ============================================================
+            else if (sursa == "PLUXEE")
+            {
+                Console.WriteLine("🚀 Începem importul PDF PLUXEE...");
+                var tranzactii = CITIREPDFPLUXEE.PluxeePdfReader.Parse(filePath);
+
+                if (tranzactii == null || tranzactii.Count == 0)
+                {
+                    Console.WriteLine("⚠️ PDF gol sau format necunoscut.");
+                    return Ok(new { success = false, message = "PDF gol sau format necunoscut." });
+                }
+
+                foreach (var t in tranzactii)
+                {
+                    t.SursaCard = "PLUXEE";
+                    t.EsteCredit = false;
+                    t.TipTranzactie ??= "Cumparare POS";
+                    t.Categorie ??= "Tranzactie Pluxee";
+                    t.Detalii ??= "(import automat PDF)";
+                }
+
+                // 🔹 Colectăm cheile existente (anti-duplicat)
+                var existingKeys = new HashSet<string>(
+                    _context.TranzactiiING
+                        .Where(t => t.SursaCard == "PLUXEE")
+                        .Select(t => $"{t.DataTranzactie:yyyyMMdd}|{Math.Abs(t.Suma ?? 0):0.00}|{(t.Merchant ?? "").Trim().ToUpperInvariant()}")
+                        .ToList()
+                );
+
+                var historyKeys = new HashSet<string>(
+                    _context.ImportHistory.Select(h => h.UniqueKey).ToList()
+                );
+
+                int adaugate = 0;
+
+                foreach (var t in tranzactii)
+                {
+                    var key = $"{t.DataTranzactie:yyyyMMdd}|{Math.Abs(t.Suma ?? 0):0.00}|{(t.Merchant ?? "").Trim().ToUpperInvariant()}";
+
+                    if (existingKeys.Contains(key) || historyKeys.Contains(key))
+                    {
+                        Console.WriteLine($"🧱 Dublură PLUXEE ignorată: {t.Merchant} {t.Suma:0.00}");
+                        continue;
+                    }
+
+                    _context.TranzactiiING.Add(t);
+                    _context.ImportHistory.Add(new ImportHistory
+                    {
+                        Sursa = "PLUXEE",
+                        UniqueKey = key,
+                        CreatedAt = DateTime.Now
+                    });
+
+                    existingKeys.Add(key);
+                    historyKeys.Add(key);
+                    adaugate++;
+                }
+
+                _context.SaveChanges();
+                Console.WriteLine($"✅ Import PLUXEE finalizat — {adaugate} tranzacții noi salvate.");
+            }
+
+            return Ok(new { success = true, message = $"✅ Import {sursa} finalizat cu succes!" });
         }
         catch (Exception ex)
         {
@@ -435,6 +562,8 @@ public class TranzactiiController : ControllerBase
             return StatusCode(500, new { success = false, message = ex.Message });
         }
     }
+
+
 
 
 

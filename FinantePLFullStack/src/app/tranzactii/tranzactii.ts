@@ -1288,6 +1288,7 @@ private filtreazaCategorii(input: string): string[] {
 }
 
 importCsv() {
+  console.log('📤 Sursă selectată:', this.sursaSelectata);
   if (!this.sursaSelectata) {
     alert('Selectează mai întâi sursa extrasului!');
     return;
