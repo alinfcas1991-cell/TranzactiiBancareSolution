@@ -8,45 +8,64 @@ namespace TranzactiiBancare
     [Route("api/categorii-json")]
     public class CategoriiJsonController : ControllerBase
     {
-        private readonly string jsonPath;
+        private readonly IWebHostEnvironment _env;
 
         public CategoriiJsonController(IWebHostEnvironment env)
         {
-            jsonPath = Path.Combine(env.WebRootPath, "data", "categorii.json");
+            _env = env;
+        }
+
+        // 🔍 Funcție internă care caută fișierul automat
+        private string GetJsonPath()
+        {
+            var pathRender = Path.Combine(_env.ContentRootPath, "DataFiles", "categorii.json");
+            var pathLocal = Path.Combine(_env.ContentRootPath, "wwwroot", "data", "categorii.json");
+
+            if (System.IO.File.Exists(pathRender))
+                return pathRender;
+            if (System.IO.File.Exists(pathLocal))
+                return pathLocal;
+
+            Console.WriteLine("⚠️ Nu s-a găsit fișierul categorii.json!");
+            return pathLocal; // default
         }
 
         [HttpGet]
         public IActionResult GetCategorii()
         {
-            if (!System.IO.File.Exists(jsonPath))
-                return Ok(new List<string>());
+            try
+            {
+                var jsonPath = GetJsonPath();
 
-            var json = System.IO.File.ReadAllText(jsonPath);
-            var categorii = JsonSerializer.Deserialize<List<string>>(json);
-            return Ok(categorii ?? new List<string>());
+                if (!System.IO.File.Exists(jsonPath))
+                    return Ok(new List<string>());
+
+                var json = System.IO.File.ReadAllText(jsonPath);
+                var categorii = JsonSerializer.Deserialize<List<string>>(json);
+
+                Console.WriteLine($"✅ {categorii?.Count ?? 0} categorii încărcate din {jsonPath}");
+                return Ok(categorii ?? new List<string>());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Eroare la citirea JSON: {ex.Message}");
+                return StatusCode(500, "Eroare la citirea fișierului categorii.json");
+            }
         }
 
-    public class CategorieDto
+        public class CategorieDto
         {
-            [JsonPropertyName("categorieNoua")] // 👈 asigură maparea corectă între camelCase și PascalCase
+            [JsonPropertyName("categorieNoua")]
             public string CategorieNoua { get; set; } = string.Empty;
-    }
-
-
+        }
 
         [HttpPost]
         public IActionResult AddCategorie([FromBody] CategorieDto dto)
         {
-            // Log pentru debugging
-            Console.WriteLine("===== AddCategorie called =====");
-            Console.WriteLine($"dto is null? {dto == null}");
-            if (dto != null)
-                Console.WriteLine($"dto.CategorieNoua = '{dto.CategorieNoua}'");
+            var jsonPath = GetJsonPath();
 
             if (dto == null || string.IsNullOrWhiteSpace(dto.CategorieNoua))
-            {
                 return BadRequest("Categorie invalidă");
-            }
 
             var cat = dto.CategorieNoua.Trim().ToUpper();
 
@@ -66,11 +85,10 @@ namespace TranzactiiBancare
                 categorii.Add(cat);
                 var updatedJson = JsonSerializer.Serialize(categorii, new JsonSerializerOptions { WriteIndented = true });
                 System.IO.File.WriteAllText(jsonPath, updatedJson);
+                Console.WriteLine($"✅ Categorie adăugată: {cat}");
             }
 
             return Ok(categorii);
         }
-
     }
-
 }

@@ -22,8 +22,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="../CITIREPDFPLUXEE/CITIREPDFPLUXEE.csproj" />
-		<ProjectReference Include="../TranzactiiCommon/TranzactiiCommon.csproj" />
+		<ProjectReference Include="..\CITIREPDFPLUXEE\CITIREPDFPLUXEE.csproj" />
+		<ProjectReference Include="..\TranzactiiCommon\TranzactiiCommon.csproj" />
 	</ItemGroup>
+
+	<!-- ✅ Adaugă această secțiune nouă -->
+	<ItemGroup>
+		<Content Include="..\DataFiles\categorii.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<Link>DataFiles\categorii.json</Link>
+		</Content>
+	</ItemGroup>
+
 
 </Project>

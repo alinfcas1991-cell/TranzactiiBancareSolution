@@ -474,24 +474,34 @@ pieChartOptions: ChartOptions<'pie' | 'bar'> = {
   this.filter = this.route.snapshot.data['filter'] ?? null;
 
   // Încarcă categoriile și inițializează filtrarea auto-complete
-  this.http.get<string[]>(`${environment.apiUrl}/api/categorii-json`) 
-    .subscribe({
-      next: (categoriiJson) => {
-        this.categorii = categoriiJson;
+  this.http.get<string[]>(`${environment.apiUrl}/api/categorii-json`)
+  .subscribe({
+    next: (categoriiJson) => {
+      console.log("✅ Răspuns API categorii-json primit:", categoriiJson);
+      console.log("🌍 Endpoint apelat:", `${environment.apiUrl}/api/categorii-json`);
+      console.log("📦 Tipul răspunsului:", Array.isArray(categoriiJson) ? `Array (${categoriiJson.length})` : typeof categoriiJson);
 
-        // initializează controlul
-        this.categorieControl.setValue('');
+      this.categorii = categoriiJson || [];
 
-        // configurează filtrarea pe valueChanges
-        this.categoriiFiltrate = this.categorieControl.valueChanges.pipe(
-          startWith(''),
-          debounceTime(200),
-          distinctUntilChanged(),
-          map(val => this.filtreazaCategorii(val || ''))
-        );
-      },
-      error: (err) => console.error('❌ Eroare la încărcare categorii JSON:', err)
-    });
+      if (this.categorii.length === 0) {
+        console.warn("⚠️ Lista de categorii e goală — verifică fișierul JSON pe backend.");
+      }
+
+      // initializează controlul autocomplete
+      this.categorieControl.setValue('');
+
+      this.categoriiFiltrate = this.categorieControl.valueChanges.pipe(
+        startWith(''),
+        debounceTime(200),
+        distinctUntilChanged(),
+        map(val => this.filtreazaCategorii(val || ''))
+      );
+    },
+    error: (err) => {
+      console.error("❌ Eroare la încărcare categorii JSON:", err);
+      console.error("🌍 URL încercat:", `${environment.apiUrl}/api/categorii-json`);
+    }
+  });
 
   // Încarcă tranzacțiile
   this.http.get<Tranzactie[]>(`${environment.apiUrl}/api/tranzactii`).subscribe({

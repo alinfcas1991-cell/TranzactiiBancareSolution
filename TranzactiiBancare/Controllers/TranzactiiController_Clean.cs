@@ -68,6 +68,60 @@ public class TranzactiiController : ControllerBase
 
 
     // ======================================================
+    // 🔹 GET categorii din fișier JSON (frontend autocomplete)
+    // ======================================================
+    [HttpGet("categorii-json")]
+    public IActionResult GetCategoriiJson()
+    {
+        try
+        {
+            var rootPath = Directory.GetCurrentDirectory();
+
+            // 🔍 căutăm în mai multe locații posibile
+            var possiblePaths = new[]
+            {
+            Path.Combine(rootPath, "DataFiles", "categorii.json"),                                 // local dev
+            Path.Combine(rootPath, "TranzactiiBancare", "DataFiles", "categorii.json"),           // VS build
+            Path.Combine(AppContext.BaseDirectory, "DataFiles", "categorii.json"),                 // bin\Debug\net8.0
+            Path.Combine(AppContext.BaseDirectory, "categorii.json"),                              // fallback direct
+            Path.Combine(Directory.GetParent(AppContext.BaseDirectory)?.FullName ?? "", "DataFiles", "categorii.json"), // render publish root
+            Path.Combine(Directory.GetParent(rootPath)?.FullName ?? "", "DataFiles", "categorii.json")                 // un nivel mai sus
+        };
+
+            Console.WriteLine("🔍 Caut categorii.json în următoarele locuri:");
+            foreach (var p in possiblePaths)
+                Console.WriteLine("➡️ " + p);
+
+            // 📄 alegem primul fișier existent
+            var fileToUse = possiblePaths.FirstOrDefault(System.IO.File.Exists);
+
+            if (fileToUse == null)
+            {
+                Console.WriteLine("⚠️ Fișierul categorii.json nu a fost găsit nicăieri!");
+                return Ok(new string[0]);
+            }
+
+            Console.WriteLine($"✅ Folosesc fișierul: {fileToUse}");
+
+            var json = System.IO.File.ReadAllText(fileToUse);
+            var categorii = JsonSerializer.Deserialize<List<string>>(json) ?? new();
+
+            Console.WriteLine($"✅ Găsit {categorii.Count} categorii în {fileToUse}");
+            return Ok(categorii);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"🔥 Eroare la citirea categorii.json: {ex.Message}");
+            return StatusCode(500, new { message = "Eroare la citirea categoriilor", details = ex.Message });
+        }
+    }
+
+
+
+
+
+
+    // ======================================================
     // 🔹 OCR + AI learning (cu log și try/catch complet)
     // ======================================================
     [ApiExplorerSettings(IgnoreApi = true)]
@@ -329,6 +383,8 @@ public class TranzactiiController : ControllerBase
             });
         }
     }
+
+
 
     [HttpGet("raport")]
     public IActionResult GetRaport([FromQuery] int days = 7)
