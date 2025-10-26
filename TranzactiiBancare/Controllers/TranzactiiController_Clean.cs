@@ -9,6 +9,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using TranzactiiBancare;
 using TranzactiiCommon.Models;
+using TranzactiiBancare.Models;
 
 
 [ApiController]
@@ -118,6 +119,24 @@ public class TranzactiiController : ControllerBase
 
 
 
+    [HttpPut("update-netpersonal/{id}")]
+    public async Task<IActionResult> UpdateNetPersonal(int id, [FromBody] JsonElement body)
+    {
+        if (!body.TryGetProperty("netPersonal", out var val)) return BadRequest();
+        var tranz = await _context.TranzactiiING.FindAsync(id);
+        if (tranz == null) return NotFound();
+
+        tranz.NetPersonal = val.GetDecimal();
+        tranz.EstePersonal = true;
+        await _context.SaveChangesAsync();
+
+        return Ok(new
+        {
+            success = true,
+            message = $"NetPersonal actualizat la {val.GetDecimal():0.00} lei pentru tranzacția {id}"
+        });
+
+    }
 
 
 
@@ -1104,6 +1123,85 @@ public class TranzactiiController : ControllerBase
 
         return Ok(new { message = "✅ NrTigari actualizat" });
     }
+
+
+    [HttpPost("salveaza-pnl")]
+    public IActionResult SalveazaPnl([FromBody] PnlModel model)
+    {
+        // 🔹 Căutăm dacă există deja P&L pentru acea lună, an și sursă
+        var existing = _context.PnlLunar
+            .FirstOrDefault(p => p.Luna == model.Luna && p.An == model.An && p.Sursa == model.Sursa);
+
+        if (existing != null)
+        {
+            // 🔄 Actualizăm valorile existente
+            existing.Venituri = model.Venituri;
+            existing.Cheltuieli = model.Cheltuieli;
+            existing.Profit = model.Profit;
+            _context.PnlLunar.Update(existing);
+        }
+        else
+        {
+            // ➕ Creăm o înregistrare nouă
+            _context.PnlLunar.Add(new PnlLunar
+            {
+                Luna = model.Luna,
+                An = model.An,
+                Sursa = model.Sursa,
+                Venituri = model.Venituri,
+                Cheltuieli = model.Cheltuieli,
+                Profit = model.Profit
+            });
+        }
+
+        _context.SaveChanges();
+        return Ok(new { success = true });
+    }
+
+    [HttpGet("pnl/{an}")]
+    public IActionResult GetPnlPeAn(int an)
+    {
+        // 🔹 Grupăm toate sursele (ING + PLUXEE + ALL)
+        var data = _context.PnlLunar
+            .Where(p => p.An == an)
+            .GroupBy(p => p.Luna)
+            .Select(g => new {
+                Luna = g.Key,
+                ProfitTotal = g.Sum(x => x.Profit),
+                VenituriTotal = g.Sum(x => x.Venituri),
+                CheltuieliTotal = g.Sum(x => x.Cheltuieli)
+            })
+            .OrderBy(x => x.Luna)
+            .ToList();
+
+        return Ok(data);
+    }
+
+
+
+    [HttpGet("pnl/{an:int}/{luna:int}")]
+    public IActionResult GetPnlLunar(int an, int luna)
+    {
+        var lista = _context.PnlLunar
+            .Where(p => p.An == an && p.Luna == luna)
+            .Select(p => new {
+                p.Id,
+                p.Luna,
+                p.An,
+                p.Sursa,
+                p.Venituri,
+                p.Cheltuieli,
+                p.Profit
+            })
+            .ToList();
+
+        if (!lista.Any())
+            return NotFound();
+
+        return Ok(lista);
+    }
+
+
 
 
 

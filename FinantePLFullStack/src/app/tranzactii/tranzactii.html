@@ -3,21 +3,55 @@
 	
 	
 	<div class="top-header-box">
+  <!-- 🟢 Stânga -->
   <div class="left-section">
     <h2>📊 Tranzacții ING (din API)</h2>
     <mat-slide-toggle [(ngModel)]="hoverMode">Activează Hover</mat-slide-toggle>
   </div>
-	
-	  <div class="center-section">
+
+  <!-- 🟣 Centru -->
+  <div class="center-section">
     <span class="label">💰 Profit total:</span>
-    <span class="value profit">{{ getTotalProfit() | number:'1.2-2' }} lei</span>
+    <span class="value profit" [style.color]="profitHeader >= 0 ? '#00ff99' : '#ff5555'">
+  {{ profitHeader | number:'1.2-2' }} lei
+</span>
+
+    <!-- 🌙 Selector de lună custom -->
+<div class="luna-selector" (click)="toggleDropdownLuni()">
+  <mat-icon class="calendar-icon">calendar_today</mat-icon>
+  <span class="luna-text">
+    {{ getNumeLuna(lunaSelectata) | uppercase }}
+  </span>
+  <mat-icon class="arrow-icon">{{ showDropdownLuni ? 'expand_less' : 'expand_more' }}</mat-icon>
+</div>
+
+<!-- 🔽 Dropdown-ul cu lunile -->
+<div class="luni-dropdown" *ngIf="showDropdownLuni">
+  <div
+    class="luna-item"
+    *ngFor="let luna of luni"
+    [class.active]="isLunaActiva(luna)"
+    (click)="selecteazaLuna(luna)"
+  >
+    {{ luna.nume | uppercase }}
   </div>
-  
+</div>
+
+
+
+    <span class="label" style="margin-left: 20px;">💳 Total cheltuieli:</span>
+    <span class="value cheltuieli" style="color:#ff6666;">
+  {{ cheltuieliHeader | number:'1.2-2' }} lei
+</span>
+  </div>
+
+  <!-- 🔵 Dreapta -->
   <div class="right-section">
     <span class="label">🧮 Total curent:</span>
     <span class="value">{{ getBannerTotal() | number:'1.2-2' }} lei</span>
   </div>
 </div>
+
 
 
 
@@ -123,41 +157,172 @@
     </button>
   </div>
   <!-- 🔹 Carduri totaluri ING / PLUXEE -->
-  <div class="cards-col">
+ <!-- ===================================================
+     🔁 DASHBOARD CARD SWITCH (Balanță ↔ Profit & Loss)
+=================================================== -->
+
+
+
+
+
+
+
+<div class="cards-col">
   <div class="cards-totale">
-    <div class="total-card" 
-         *ngFor="let t of totaleSurse"
-         [ngClass]="t.sursa.toLowerCase()">
 
-      <div class="card-header-with-balance">
-        <div class="left">
-          <!-- logo dinamic -->
-          <img [src]="'assets/img/' + t.sursa.toLowerCase() + '.png'" 
-               [alt]="t.sursa" 
-               class="icon-sursa" />
-          <h4>{{ t.sursa }}</h4>
-        </div>
-
-        <div class="right">
-          <span class="label">⚖️ Balanță totală:</span>
-          <span class="value">
-            {{ getBalanta(t.sursa.toUpperCase()) | number:'1.2-2' }} lei
-          </span>
-        </div>
+    <!-- 🔄 Buton mic de switch între moduri -->
+    <div class="switch-mode-group">
+      <div class="switch-mode" (click)="toggleDashboardMode()" matTooltip="Comută între Balanțe și P&L">
+        <mat-icon>
+          {{ showBalanceMode ? 'bar_chart' : 'account_balance_wallet' }}
+        </mat-icon>
       </div>
 
-      <div class="linie cheltuieli">
-        <span>💳 Cheltuieli:</span>
-        <strong>{{ getTotalCheltuieli(t.sursa.toUpperCase()) | number:'1.2-2' }} lei</strong>
-      </div>
+    </div>
 
-      <div class="linie venituri">
-        <span>💰 Venituri:</span>
-        <strong>{{ getTotalVenituri(t.sursa.toUpperCase()) | number:'1.2-2' }} lei</strong>
+    <!-- 🪞 ANIMAȚIE FLIP 3D -->
+    <div class="flip-container" [class.flipped]="!showBalanceMode">
+      <div class="flipper">
+
+        <!-- 🟦 FAȚA: Balanțe Reale -->
+        <div class="front mode-view">
+
+          <!-- 🏦 ING -->
+          <div class="total-card ing">
+            <div class="card-header-with-balance">
+              <div class="left">
+                <img src="assets/img/ing.png" alt="ING" class="icon-sursa" />
+                <h4>ING</h4>
+              </div>
+              <div class="right">
+                <span class="label">⚖️ Balanță totală:</span>
+                <span class="value">{{ getBalanta('ING') | number:'1.2-2' }} lei</span>
+              </div>
+            </div>
+
+            <div class="linie cheltuieli">
+              <span>💳 Cheltuieli:</span>
+              <strong>{{ getTotalCheltuieli('ING') | number:'1.2-2' }} lei</strong>
+            </div>
+            <div class="linie venituri">
+              <span>💰 Venituri:</span>
+              <strong>{{ getTotalVenituri('ING') | number:'1.2-2' }} lei</strong>
+            </div>
+          </div>
+
+          <!-- 💳 PLUXEE -->
+          <div class="total-card pluxee">
+            <div class="card-header-with-balance">
+              <div class="left">
+                <img src="assets/img/pluxee.png" alt="PLUXEE" class="icon-sursa" />
+                <h4>PLUXEE</h4>
+              </div>
+              <div class="right">
+                <span class="label">⚖️ Balanță totală:</span>
+                <span class="value">{{ getBalanta('PLUXEE') | number:'1.2-2' }} lei</span>
+              </div>
+            </div>
+
+            <div class="linie cheltuieli">
+              <span>💳 Cheltuieli:</span>
+              <strong>{{ getTotalCheltuieli('PLUXEE') | number:'1.2-2' }} lei</strong>
+            </div>
+            <div class="linie venituri">
+              <span>💰 Venituri:</span>
+              <strong>{{ getTotalVenituri('PLUXEE') | number:'1.2-2' }} lei</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- 🟣 VERSO: Profit & Loss -->
+        <div class="back pnl-view">
+
+          <div class="pnl-cards-flex">
+            <!-- ING P&L -->
+            <div class="total-card ing">
+		  <div class="card-header-with-balance">
+			<div class="left">
+			  <img src="assets/img/ing.png" alt="ING" class="icon-sursa" />
+			  <h4>📊 ING P&L</h4>
+			</div>
+		  </div>
+
+		  <div class="pnl-bar-dinamic">
+			<div
+			  class="pnl-fill"
+			  [style.width.%]="getPnlPercent('ING')"
+			  [style.background]="getProfitColor('ING')">
+			</div>
+		  </div>
+
+		  <!-- 🔹 Toate pe un singur rând -->
+		  <!-- 🔹 Toate pe un singur rând -->
+		<div class="pnl-inline-row">
+		  <div class="venituri">
+			💰 Venituri:
+			<b>{{ pnlIng.venituri | number:'1.2-2' }} lei</b>
+		  </div>
+		  <div class="cheltuieli">
+			💳 Cheltuieli:
+			<b>{{ pnlIng.cheltuieli | number:'1.2-2' }} lei</b>
+		  </div>
+		  <div class="profit">
+			{{ pnlIng.profit >= 0 ? '📈 Profit net:' : '📉 Pierdere netă:' }}
+			<b [style.color]="getProfitColor('ING')">
+			  {{ pnlIng.profit | number:'1.2-2' }} lei
+			</b>
+		  </div>
+		</div>
+
+		</div>
+
+
+            <!-- PLUXEE P&L -->
+            <div class="total-card pluxee">
+  <div class="card-header-with-balance">
+    <div class="left">
+      <img src="assets/img/pluxee.png" alt="PLUXEE" class="icon-sursa" />
+      <h4>📈 PLUXEE P&L</h4>
+    </div>
+  </div>
+
+  <!-- 🟩 Bara dinamică -->
+		  <div class="pnl-bar-dinamic">
+			<div
+			  class="pnl-fill"
+			  [style.width.%]="getPnlPercent('PLUXEE')"
+			  [style.background]="getProfitColor('PLUXEE')">
+			</div>
+		  </div>
+
+		  <!-- 🔹 Totul pe un singur rând -->
+		  <div class="pnl-inline-row">
+		  <div class="venituri">
+			💰 Venituri:
+			<b>{{ pnlPluxee.venituri | number:'1.2-2' }} lei</b>
+		  </div>
+		  <div class="cheltuieli">
+			💳 Cheltuieli:
+			<b>{{ pnlPluxee.cheltuieli | number:'1.2-2' }} lei</b>
+		  </div>
+		  <div class="profit">
+			{{ pnlPluxee.profit >= 0 ? '📈 Profit net:' : '📉 Pierdere netă:' }}
+			<b [style.color]="getProfitColor('PLUXEE')">
+			  {{ pnlPluxee.profit | number:'1.2-2' }} lei
+			</b>
+		  </div>
+		</div>
+
+		</div>
+
+          </div>
+
+        </div> <!-- end back -->
       </div>
     </div>
   </div>
 </div>
+
 
 	</div>
   </div>
@@ -405,8 +570,23 @@
 
 		<!-- ✏️ Buton editare -->
 		<button mat-icon-button color="primary" (click)="editCategorie(element)">
+		
         ✏️
 		</button>
+		<button mat-icon-button
+        color="accent"
+        matTooltip="Ajustează partea personală (P&L)"
+        (click)="openNetPersonalDialog(element)">
+  <mat-icon>settings</mat-icon>
+</button>
+<button 
+  mat-icon-button 
+  color="accent"
+  matTooltip="Adaugă automat țigări"
+  (click)="adaugaCopilTigari(element)">
+  🚬
+</button>
+
 	</ng-container>
 
 	<!-- 🔹 Mod editare -->
@@ -466,6 +646,43 @@
     </ng-container>
   </td>
 </ng-container>
+
+<!-- 🔹 Net Personal -->
+<ng-container matColumnDef="netPersonal">
+  <th mat-header-cell *matHeaderCellDef> NetPersonal </th>
+  <td mat-cell *matCellDef="let element">
+    <span *ngIf="element.netPersonal !== null && element.netPersonal !== undefined">
+      {{ element.netPersonal | number:'1.2-2' }} lei
+    </span>
+    <span *ngIf="element.netPersonal === null || element.netPersonal === undefined" class="text-muted">
+      -
+    </span>
+  </td>
+</ng-container>
+	
+<!-- 🔹 ESTE PERSONAL --><!-- 🔹 ESTE PERSONAL -->
+<ng-container matColumnDef="estePersonal">
+  <th mat-header-cell *matHeaderCellDef> Personal </th>
+  <td mat-cell *matCellDef="let element">
+    <div style="display: flex; align-items: center; justify-content: center;">
+      
+      <!-- ✅ Verde aprins dacă este personal -->
+      <mat-icon *ngIf="element.estePersonal" matTooltip="Tranzacție personală" style="color: #00ff66;">
+        check_circle
+      </mat-icon>
+
+      <!-- ❌ Roșu aprins dacă NU este personal -->
+      <mat-icon *ngIf="!element.estePersonal" matTooltip="Tranzacție comună / non-personală" style="color: #ff3b3b;"
+>
+        cancel
+      </mat-icon>
+
+    </div>
+  </td>
+</ng-container>
+
+
+
 
 
 
@@ -655,7 +872,8 @@
     'mixed-row': row.categorie?.toLowerCase().includes('tigari') 
                  && row.categorie?.toLowerCase().includes('bere'),
     'special-row': row.detalii?.includes('|') || row.detalii?.includes('('),
-    'incasare-row': row.tipTranzactie?.toLowerCase().includes('incasare')
+    'incasare-row': row.tipTranzactie?.toLowerCase().includes('incasare') ||
+      row.categorie?.toLowerCase().includes('salariu')
   }">
 </tr>
 
@@ -667,6 +885,30 @@
 </table>
 </div>
 </div>
+
+
+<!-- 🟢 Buton plutitor pentru grafic -->
+<button class="profit-chart-btn" (click)="toggleChartEvolutie()">
+  📈
+</button>
+
+<!-- 🟣 Overlay pentru grafic -->
+<div class="profit-chart-overlay" *ngIf="showChartEvolutie">
+  <div class="chart-box">
+    <div class="chart-header">
+      <h3>📊 Evoluția Profitului Lunar</h3>
+      <button class="close-btn" (click)="toggleChartEvolutie()">✖</button>
+    </div>
+
+    <canvas
+      baseChart
+      [data]="profitChartData"
+      [options]="profitChartOptions"
+      [type]="'line'">
+    </canvas>
+  </div>
+</div>
+
 
 <!-- 🌀 Overlay OCR Loading -->
 <div class="ocr-overlay" *ngIf="isLoadingOcr">

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace TranzactiiBancare.Migrations
 {
     [DbContext(typeof(AppDbContextTranzactiiFinanciare))]
-    partial class AppDbContextTranzactiiFinanciareModelSnapshot : ModelSnapshot
+    [Migration("20251025173623_AddNetPersonalFields")]
+    partial class AddNetPersonalFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,40 +70,6 @@ namespace TranzactiiBancare.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("OcrKnowledge");
-                });
-
-            modelBuilder.Entity("TranzactiiBancare.Models.PnlLunar", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<short>("An")
-                        .HasColumnType("smallint");
-
-                    b.Property<decimal>("Cheltuieli")
-                        .HasColumnType("numeric");
-
-                    b.Property<DateTime>("DataSalvare")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<short>("Luna")
-                        .HasColumnType("smallint");
-
-                    b.Property<decimal>("Profit")
-                        .HasColumnType("numeric");
-
-                    b.Property<string>("Sursa")
-                        .HasColumnType("text");
-
-                    b.Property<decimal>("Venituri")
-                        .HasColumnType("numeric");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PnlLunar");
                 });
 
             modelBuilder.Entity("TranzactiiCommon.Models.TranzactieING", b =>

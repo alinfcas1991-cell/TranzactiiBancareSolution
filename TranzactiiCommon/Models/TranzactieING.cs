@@ -17,16 +17,15 @@
         public string? Categorie { get; set; }
         public string? Detalii { get; set; }
 
-        // 🔹 nou câmp
-        public string? SursaCard { get; set; }  // "ING" | "Pluxee" | "Cash"
+        public string? SursaCard { get; set; }  // ING | Pluxee | Cash
+        public int? ParentId { get; set; }
 
-        // 🔹 relația cu părintele (tranzacția principală)
-        public int? ParentId { get; set; }      // 👈 adăugat acum
         public int? NrBeri { get; set; }
         public int? NrTigari { get; set; }
-
         public bool EsteProcesata { get; set; } = false;
 
-
+        // 🔹 Noile câmpuri pentru P&L
+        public decimal? NetPersonal { get; set; }
+        public bool EstePersonal { get; set; } = false;
     }
 }

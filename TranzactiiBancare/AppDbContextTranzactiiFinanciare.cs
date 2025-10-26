@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TranzactiiCommon.Models;
 using System;
+using TranzactiiBancare.Models;
+using TranzactiiCommon.Models;
 
 public class AppDbContextTranzactiiFinanciare : DbContext
 {
@@ -14,6 +15,8 @@ public class AppDbContextTranzactiiFinanciare : DbContext
     // 🧠 noua tabelă care va memora ce a învățat AI-ul
     public DbSet<OcrKnowledge> OcrKnowledge { get; set; }
     public DbSet<ImportHistory> ImportHistory { get; set; }
+    public DbSet<PnlLunar> PnlLunar { get; set; }
+
 
     // ✅ Fix global pentru conversia DateTime la UTC (PostgreSQL-friendly)
     protected override void OnModelCreating(ModelBuilder modelBuilder)
