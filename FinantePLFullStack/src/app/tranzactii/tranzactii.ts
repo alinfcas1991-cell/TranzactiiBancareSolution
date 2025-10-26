@@ -793,7 +793,7 @@ profitChartOptions: any;
       autoSplit: this.autoSplitEnabled
     };
 
-    this.http.post(`${environment.apiUrl}/api/Tranzactii/import-csv`, payload)
+    this.http.post(`${environment.apiUrl}/api/tranzactii/import-csv`, payload)
       .subscribe({
         next: (resp: any) => {
           if (resp.success) {
